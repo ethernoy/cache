@@ -1,0 +1,10 @@
+FROM alpine:3.15.0  
+RUN apk add --no-cache curl jq bash ca-certificates openssl \
+    && update-ca-certificates && addgroup -S appgroup && adduser -u 1000 -S appuser -G appgroup
+
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.20.0/bin/linux/amd64/kubectl \
+    && chmod +x ./kubectl \
+    && mv ./kubectl /usr/local/bin/kubectl 
+
+USER appuser
+WORKDIR /home/appuser/app
